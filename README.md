@@ -115,3 +115,23 @@ curl --location 'http://localhost:3000/api/v1/calculate' \
     "error":"expression is not valid"
 }
 ```
+
+### 2. Ошибка 500 (внутренняя ошибка):
+
+Отправляем некорректное выражение `5/0`:
+
+```bash
+curl --location 'http://localhost:3000/api/v1/calculate' \
+--header 'Content-Type: application/json' \
+--data '{
+  "expression": "5/0"
+}'
+```
+
+
+Ответ:
+```json
+{
+    "error":"Internal server error"
+}
+```

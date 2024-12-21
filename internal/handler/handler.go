@@ -38,8 +38,15 @@ func (h *Handler) CalcHandler(w http.ResponseWriter, r *http.Request) {
 	var resp model.Response
 
 	if err != nil {
-		errResp := model.ErrorResponse{Error: err.Error()}
-		w.WriteHeader(http.StatusUnprocessableEntity)
+		var errResp model.ErrorResponse
+		if err.Error() == "division by zero" {
+			w.WriteHeader(http.StatusInternalServerError)
+			errResp = model.ErrorResponse{Error: "Internal server error"}
+		} else {
+			w.WriteHeader(http.StatusInternalServerError)
+			errResp = model.ErrorResponse{Error: "expression is not valid"}
+		}
+
 		err = json.NewEncoder(w).Encode(errResp)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)

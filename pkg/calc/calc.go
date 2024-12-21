@@ -27,7 +27,7 @@ func (d *calculator) Calc(expression string) (float64, error) {
 	parser := &parser.Parser{Tokens: tokens}
 	result, err := parser.ParseExpression()
 	if err != nil {
-		return 0, errors.New("expression is not valid")
+		return 0, err
 	}
 
 	if parser.Pos < len(tokens) {
