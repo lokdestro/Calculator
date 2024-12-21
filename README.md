@@ -66,6 +66,10 @@ API предоставляет один эндпоинт:
     ```bash
     git clone https://github.com/lokdestro/Calculator.git
     ```
+    Сделайте чтобы установить все зависимости
+    ```bash
+    go mod tidy
+    ```
 3. Запустите сервис командой:
     ```bash
     go run cmd/main.go
