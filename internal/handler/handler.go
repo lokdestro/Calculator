@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -35,7 +34,6 @@ func (h *Handler) CalcHandler(w http.ResponseWriter, r *http.Request) {
 	var resp model.Response
 
 	if err != nil {
-		fmt.Println(err)
 		resp.Error = err.Error()
 		w.WriteHeader(http.StatusUnprocessableEntity)
 	} else {

@@ -12,14 +12,14 @@ type Calculator interface {
 	Calc(expression string) (float64, error)
 }
 
-type defaultCalculator struct {
+type calculator struct {
 }
 
-func New() *defaultCalculator {
-	return &defaultCalculator{}
+func New() *calculator {
+	return &calculator{}
 }
 
-func (d *defaultCalculator) Calc(expression string) (float64, error) {
+func (d *calculator) Calc(expression string) (float64, error) {
 	tokens, err := tokenizer.Tokenize(expression)
 	if err != nil {
 		return 0, errors.New("failed to tokenize expression")
