@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -15,13 +16,11 @@ type Handler struct {
 }
 
 func (h *Handler) CalcHandler(w http.ResponseWriter, r *http.Request) {
-	// Разрешаем только POST-запросы
 	if r.Method != http.MethodPost {
 		http.Error(w, `{"error":"Method not allowed"}`, http.StatusMethodNotAllowed)
 		return
 	}
 
-	// Декодируем тело запроса в модель Request
 	var req model.Request
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || req.Expression == "" {
@@ -32,12 +31,12 @@ func (h *Handler) CalcHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Вычисляем выражение
 	result, err := h.srv.Calc(req.Expression)
 	var resp model.Response
 
 	if err != nil {
-		resp.Error = "Internal server error"
+		fmt.Println(err)
+		resp.Error = err.Error()
 		w.WriteHeader(http.StatusUnprocessableEntity)
 	} else {
 		resp.Result = strconv.FormatFloat(result, 'f', -1, 64)

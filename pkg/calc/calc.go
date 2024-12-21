@@ -1,6 +1,7 @@
 package calc
 
 import (
+	"errors"
 	"fmt"
 
 	"calc/pkg/parser"
@@ -21,7 +22,7 @@ func New() *defaultCalculator {
 func (d *defaultCalculator) Calc(expression string) (float64, error) {
 	tokens, err := tokenizer.Tokenize(expression)
 	if err != nil {
-		return 0, err
+		return 0, errors.New("failed to tokenize expression")
 	}
 	parser := &parser.Parser{Tokens: tokens}
 	result, err := parser.ParseExpression()
