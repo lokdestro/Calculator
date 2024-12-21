@@ -23,10 +23,14 @@ func (h *Handler) CalcHandler(w http.ResponseWriter, r *http.Request) {
 	var req model.Request
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || req.Expression == "" {
-		resp := model.Response{Error: "Expression is not valid"}
+		resp := model.ErrorResponse{Error: "expression is not valid"}
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusUnprocessableEntity)
-		json.NewEncoder(w).Encode(resp)
+		err := json.NewEncoder(w).Encode(resp)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 		return
 	}
 
@@ -34,8 +38,14 @@ func (h *Handler) CalcHandler(w http.ResponseWriter, r *http.Request) {
 	var resp model.Response
 
 	if err != nil {
-		resp.Error = err.Error()
+		errResp := model.ErrorResponse{Error: err.Error()}
 		w.WriteHeader(http.StatusUnprocessableEntity)
+		err = json.NewEncoder(w).Encode(errResp)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		return
 	} else {
 		resp.Result = strconv.FormatFloat(result, 'f', -1, 64)
 		w.WriteHeader(http.StatusOK)

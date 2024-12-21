@@ -22,16 +22,16 @@ func New() *calculator {
 func (d *calculator) Calc(expression string) (float64, error) {
 	tokens, err := tokenizer.Tokenize(expression)
 	if err != nil {
-		return 0, errors.New("failed to tokenize expression")
+		return 0, errors.New("expression is not valid")
 	}
 	parser := &parser.Parser{Tokens: tokens}
 	result, err := parser.ParseExpression()
 	if err != nil {
-		return 0, err
+		return 0, errors.New("expression is not valid")
 	}
 
 	if parser.Pos < len(tokens) {
-		return 0, fmt.Errorf("unexpected token: %v", tokens[parser.Pos])
+		return 0, fmt.Errorf("expression is not valid")
 	}
 
 	return result, nil

@@ -6,5 +6,8 @@ type Request struct {
 
 type Response struct {
 	Result string `json:"result"`
-	Error  string `json:"error"`
+}
+
+type ErrorResponse struct {
+	Error string `json:"error"`
 }
