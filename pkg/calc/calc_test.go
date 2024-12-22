@@ -51,7 +51,7 @@ func TestCalculator(t *testing.T) {
 		{
 			name:       "Floating point numbers",
 			expression: "5.5 + 1.2",
-			expected:   6.7, // учтите возможные погрешности вычислений
+			expected:   6.7,
 		},
 		{
 			name:        "Invalid input",
