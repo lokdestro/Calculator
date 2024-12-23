@@ -43,7 +43,7 @@ func (h *Handler) CalcHandler(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 			errResp = model.ErrorResponse{Error: "Internal server error"}
 		} else {
-			w.WriteHeader(http.StatusInternalServerError)
+			w.WriteHeader(http.StatusUnprocessableEntity)
 			errResp = model.ErrorResponse{Error: "expression is not valid"}
 		}
 
